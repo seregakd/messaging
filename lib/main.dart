@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,52 +10,57 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: new Scaffold(
             body: Center(
-                child: Container(
-                    width: 500,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      border: Border.all(),
-                    ),
-                    height: 300,
-                    child: new CardWidget()))));
+                child: new HomePage()
+            )
+        )
+    );
   }
 }
 
-class CardWidget extends StatelessWidget {
-  static const double sizeSmallIcon = 30;
+class HomePage extends StatefulWidget  {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String _homeScreenText = "Waiting for token...";
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(mainAxisSize: MainAxisSize.min, children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.account_circle, size: 50),
-            ),
-            Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Flutter McFlutter',
-                      style: Theme.of(context).textTheme.headline),
-                  Text('app developer')
-                ])
-          ]),
-          SizedBox(height: 8),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('123 Main Street'),
-            Text('(415) 555-0198'),
-          ]),
-          SizedBox(height: 16),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            Icon(Icons.accessibility, size: sizeSmallIcon),
-            Icon(Icons.timer, size: sizeSmallIcon),
-            Icon(Icons.phone_android, size: sizeSmallIcon),
-            Icon(Icons.phone_iphone, size: sizeSmallIcon)
-          ])
-        ]);
+    return Text(_homeScreenText);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      setState(() {
+        _homeScreenText = "Push Messaging token: $token";
+      });
+      print(_homeScreenText);
+    });
   }
 }
