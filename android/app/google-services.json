@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "418509298045",
+    "firebase_url": "https://messaging-4361f.firebaseio.com",
+    "project_id": "messaging-4361f",
+    "storage_bucket": "messaging-4361f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418509298045:android:49940f53b1f574e3d59414",
+        "android_client_info": {
+          "package_name": "com.serohin.messaging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418509298045-ejrb03fva3hsj7pqfk7bbih7so92u4ln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHfpBSCQQzmKENuEZH6aF51i8GFA0IGBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418509298045-ejrb03fva3hsj7pqfk7bbih7so92u4ln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
