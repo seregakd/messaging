@@ -41,7 +41,22 @@ class _HomePageState extends State<HomePage> {
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
 
-
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body']),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                color: Colors.amber,
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
 
         setState(() {
           _homeScreenText = "onMessage: $message";
@@ -51,7 +66,7 @@ class _HomePageState extends State<HomePage> {
         print("onLaunch: $message");
 
         final snackbar = SnackBar(
-          content: Text(message['notification']['title'] + " " + message['notification']['body']),
+          content: Text("onLaunch: " + message['notification']['title'] + " " + message['notification']['body']),
           action: SnackBarAction(
             label: 'OK',
             onPressed: () => null,
@@ -67,7 +82,7 @@ class _HomePageState extends State<HomePage> {
         print("onResume: $message");
 
         final snackbar = SnackBar(
-          content: Text(message['notification']['title'] + " " + message['notification']['body']),
+          content: Text("onResume: " + message['notification']['title'] + " " + message['notification']['body']),
           action: SnackBarAction(
             label: 'OK',
             onPressed: () => null,
