@@ -25,10 +25,13 @@ class HomePage extends StatefulWidget  {
 class _HomePageState extends State<HomePage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _homeScreenText = "Waiting for token...";
+  Map<String, dynamic> message;
 
   @override
   Widget build(BuildContext context) {
+    print("_homeScreenText: $_homeScreenText");
     return Text(_homeScreenText);
+//    return Text(message.toString());
   }
 
   @override
@@ -37,15 +40,46 @@ class _HomePageState extends State<HomePage> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+
+
+
+        setState(() {
+          _homeScreenText = "onMessage: $message";
+        });
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
+
+        final snackbar = SnackBar(
+          content: Text(message['notification']['title'] + " " + message['notification']['body']),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () => null,
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackbar);
+
+        setState(() {
+          _homeScreenText = "onLaunch: $message";
+        });
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
+
+        final snackbar = SnackBar(
+          content: Text(message['notification']['title'] + " " + message['notification']['body']),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () => null,
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackbar);
+
+        setState(() {
+          _homeScreenText = "onResume: $message";
+        });
       },
     );
-
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(
             sound: true, badge: true, alert: true, provisional: true));
