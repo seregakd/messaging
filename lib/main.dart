@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+Future <dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+/*
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+  }
+*/
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+  }
+}
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -35,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void initState() {
+  Future <void> initState() {
     super.initState();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -62,6 +75,7 @@ class _HomePageState extends State<HomePage> {
           _homeScreenText = "onMessage: $message";
         });
       },
+      onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
 
