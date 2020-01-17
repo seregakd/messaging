@@ -31,7 +31,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     print("_homeScreenText: $_homeScreenText");
     return Text(_homeScreenText);
-//    return Text(message.toString());
   }
 
   @override
@@ -62,6 +61,7 @@ class _HomePageState extends State<HomePage> {
           _homeScreenText = "onMessage: $message";
         });
       },
+
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
 
